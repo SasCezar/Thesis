@@ -1,0 +1,33 @@
+\chapter{State of the Art}
+In this chapter we will introduce a quick summary of the state-of-the-art techniques in entity linking based on the survey of Shen et al.\cite{shen2015entity}.
+\paragraph{}
+Shen \cite{shen2015entity} divides the main task in 3 modules:
+\begin{itemize}
+\item Candidate entity generation: This module extract for each entity mention a set of candidates which may contain the correct one.
+\item Candidate entity ranking: Its task is to find the most likely link for the mention in the list of the candidates.
+\item NIL prediction: Some mentions could not have a link, this module checks if the best candidate from the previous module is the target for the mention. 
+\end{itemize}
+
+\section{Candidates Generation}
+Formally, the candidate entity generation can be described as follows:
+\[\forall m \in M \; find \; E_m\]
+Where:
+
+\begin{itemize}[noitemsep,  topsep=10pt]
+\item $m$ is the entity mention
+\item $M$ is the set of all mentions
+\item $E_m$ is the set of candidate entities for m
+\end{itemize}
+
+There are different approaches in literature for the candidates generation, these methods are not based on a single technique, in fact most of them combines two or more main techniques to overcome some problems and achieve better results. We can classify these techniques in three groups:
+\begin{itemize}[noitemsep,  topsep=10pt]
+\item Name Dictionary Based Techniques
+\item Search Engine Based Techniques
+\item 
+\end{itemize}
+
+\section{Candidates Ranking}
+After the candidates extraction, defined in the previous section, we need to rank the candidates.
+
+\section{NIL Prediction}
+Some entity mentions might not have a corresponding record in the KB, therefore we have to deal with the problem of predicting unlinkable mentions. 
