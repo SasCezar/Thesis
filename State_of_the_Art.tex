@@ -20,7 +20,7 @@ Where:
 \item $E_m$ is the set of candidate entities for m
 \end{itemize}
 
-There are different approaches in literature for the candidates generation, these methods are not based on a single technique, in fact most of them combines different techniques to overcome some problems and achieve better results.
+There are different approaches in literature for the candidates generation, these methods are not based on a single technique, in fact most of them combines different methods to overcome some problems and achieve better results.
 
 \paragraph{}
 We can classify these techniques in three groups:
@@ -38,7 +38,12 @@ This approach is used by KEA\cite{waitelonisnamed} where they map each token to 
 
 \subsection{Search Engine Techniques}
 \paragraph{}
-Some entity linking systems are trying to use the whole web information for candidate generation, they uses Web search engines for retrieving the list of candidates    
+Some entity linking systems are trying to use the whole web information for candidate generation, they uses Web search engines for retrieving the list of candidates associated to the entity.
+\paragraph{}
+An example of this is the system proposed by Han and Zhao\cite{han2009nlpr_kbp} where they submit a query containing the entity and its context to the Google API and obtained only the Wikipedia pages which are used as candidates.
+
+\paragraph{}
+A different approach is used by UniMiB\cite{caliano2016unimib}, is this case they built an index using Apache Lucene on the title ($rdf\!\!:\!\!label$), extended abstract \break($dbpedia\!\!:\!\!abstract$), type ($dbo\!\!:\!\!type$), PageRank, and url from DBpedia. Then for candidate extraction they query Lucene using the mention and obtain a list of the documents in which the mention contained.
 
 \subsection{Machine Learning Techniques}
 \paragraph{}
@@ -46,7 +51,24 @@ another text
 
 \section{Candidates Ranking}
 \paragraph{}
-After the candidates extraction, defined in the previous section, we need to rank the candidates.
+After the candidates extraction, defined in the previous section, we need to rank the candidates. The ranking process can be defined as follows:
+\[\forall e_m \in E_m \; rank(e_m)\]
+Where:
+
+\begin{itemize}[noitemsep,  topsep=10pt]
+\item $e_m$ is a candidate entity for the mention m
+\item $E_m$ is the set of candidate entities for m
+\item $rank(e_m)$ is a function that calculates the score of the candidate
+\end{itemize}
+
+\paragraph{}
+The $rank$ function can be defined in many ways, and use different features and techniques for calculating the final score so, before we analyze the different techniques, is important to understand the various types of features used.
+
+\subsection{Features}
+
+
+\subsection{Techniques} 
+another text
 
 \section{NIL Prediction}
 \paragraph{}
