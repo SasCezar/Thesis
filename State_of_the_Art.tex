@@ -1,7 +1,7 @@
 \chapter{State of the Art}
 In this chapter we will introduce a quick summary of the state-of-the-art techniques in entity linking based on the survey of Shen et al.~\cite{shen2015entity}.
 \paragraph{}
-The researchers of \cite{shen2015entity} divide the main task in 3 modules:
+The researchers of \cite{shen2015entity} divide the main task in three modules:
 \begin{itemize}
 \item Candidate entity generation: This module extract for each entity mention a set of candidates which may contain the correct one.
 \item Candidate entity ranking: Its task is to find the most likely link for the mention in the list of the candidates.
@@ -45,20 +45,19 @@ Even if name dictionary is the main technique used by many entity linking system
 Some entity linking systems are trying to use the whole web information for candidate generation, they uses Web search engines for retrieving the list of candidates associated to the entity.
 
 \paragraph{}
-An example of this is the system proposed by Han and Zhao~\cite{han2009nlpr_kbp} where they submit a query containing the entity and its context to the Google API and obtained only the Wikipedia pages which are used as candidates. A similar method is used by Dredze et al.~\cite{dredze2010entity}, in this case they used as candidate list only the Wikipedia result in the top 20 Google search results. As determinated by Lehmann et al.~\cite{lehmann2010lcc} and Monahan et al.~\cite{monahan2011cross} approaches based on Google search engine are very effective in resolving mappings between entity and surface form.
+An example of this is the system proposed by Han and Zhao~\cite{han2009nlpr_kbp} where they submit a query containing the entity and its context to the Google API and obtained only the Wikipedia pages which are used as candidates. A similar method is used by Dredze et al.~\cite{dredze2010entity}, in this case they used as candidate list only the Wikipedia result in the top 20 Google search results. As determinated by Lehmann et al.~\cite{lehmann2010lcc} and Monahan et al.~\cite{monahan2011cross} Google search engine is very effective in resolving mappings between entity and surface form.
 
 \paragraph{}
 A different approach is used by UniMiB~\cite{caliano2016unimib}, is this case they built an index using Apache Lucene on the title ($rdf:label$), extended abstract\break($dbpedia:abstract$), type ($dbo:type$), PageRank, and url from DBpedia. Then for candidate extraction they query Lucene using the mention and obtain a list of the documents in which the mention is contained.
 
 \paragraph{}
-As we mentioned previously, search engines resolve partially the problem of semantic similarity, this is because they analyze pages and consider the co-occurrence of two words~\cite{bollegala2007measuring}, if two words have high co-occurrence they may have similar meaning. This is a very naive approach but it gives use the idea of how a search engine could implement semantic similarity. This problem can be solved, using machine learning algorithms, in particular we will see an implementation using neuronal networks. 
-
+As we mentioned previously, search engines resolve partially the problem of semantic similarity, this is because they analyze pages and consider the co-occurrence of two words~\cite{bollegala2007measuring}, if two words have high co-occurrence they may have similar meaning. This is a very naive approach but it gives us the idea of how a search engine could implement semantic similarity. This problem can be solved using machine learning algorithms, in particular we will see an implementation using neuronal networks. 
 
 \subsection{Machine Learning Techniques}
 \paragraph{}
-Machine learning algorithms are increasingly present in every field of computer science. Clustering algorithms, Bayesian networks and neural networks are now the state-of-the-art in many fields, NLP makes no exception.
+Machine learning algorithms are increasingly present in every field of computer science. Clustering algorithms, Bayesian networks and neural networks are now the state-of-the-art approach in many fields, NLP makes no exception.
 
-UNIBA???
+UNIBA??? - NO
 
 \section{Candidates Ranking}
 \paragraph{}
