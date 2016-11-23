@@ -32,7 +32,7 @@ We can classify these techniques in three groups:
 
 \subsection{Name Dictionary Techniques}
 \paragraph{}
-The structure of Wikipedia provides a useful feature for generating candidate entities, like entity pages, redirect pages, disambiguation pages and hyperlinks in Wikipedia articles. These type of entity linking system use different combination of these feature to build an offline dictionary $D$ between entity name and possible mapping entities. Then the entity is compared with the dictionary's keys, the corresponding value, if the key exist, is list of candidates for the entity. The key entity comparison can be made using exact matching or partial matching. 
+The structure of Wikipedia provides a useful feature for generating candidate entities, like entity pages, redirect pages, disambiguation pages and hyperlinks in Wikipedia articles. This kind of entity linking systems uses different combination of these feature to build an offline dictionary $D$ between entity name and possible mapping entities. Then the entity is compared with the dictionary's keys, the corresponding value, if the key exist, is a list of candidates for the entity. The key entity comparison can be made using exact matching or partial matching. 
 
 \paragraph{}
 This approach is used by KEA~\cite{waitelonisnamed} where they map each token to a gazetteer compiled from the DBPedia entities labels, redirect labels, and disambiguation labels being mapped to the correct DBPedia entities. For the candidate generation KEA uses an exact matching  after normalizing the entity. They also resolve overlapping token by preferring the longer tokens over short ones.
@@ -42,7 +42,7 @@ Even if name dictionary is the main technique used by many entity linking system
 
 \subsection{Search Engine Techniques}
 \paragraph{}
-Some entity linking systems are trying to use the whole web information for candidate generation, they uses Web search engines for retrieving the list of candidates associated to the entity.
+Some entity linking systems are trying to use the whole web information for candidate generation, they use Web search engines for retrieving the list of candidates associated to the entity.
 
 \paragraph{}
 An example of this is the system proposed by Han and Zhao~\cite{han2009nlpr_kbp} where they submit a query containing the entity and its context to the Google API and obtained only the Wikipedia pages which are used as candidates. A similar method is used by Dredze et al.~\cite{dredze2010entity}, in this case they used as candidate list only the Wikipedia result in the top 20 Google search results. As determinated by Lehmann et al.~\cite{lehmann2010lcc} and Monahan et al.~\cite{monahan2011cross} Google search engine is very effective in resolving mappings between entity and surface form.
@@ -51,7 +51,7 @@ An example of this is the system proposed by Han and Zhao~\cite{han2009nlpr_kbp}
 A different approach is used by UniMiB~\cite{caliano2016unimib}, is this case they built an index using Apache Lucene on the title (\textit{rdf:label}), extended abstract\break(\textit{dbpedia:abstract}), type (\textit{dbo:type}), PageRank, and url from DBpedia. Then for candidate extraction they query Lucene using the mention and obtain a list of the documents in which the mention is contained.
 
 \paragraph{}
-As we mentioned previously, search engines resolve partially the problem of semantic similarity, this is because they analyze pages and consider the co-occurrence of two words~\cite{bollegala2007measuring}, if two words have high co-occurrence they may have similar meaning. This is a very naive approach but it gives us the idea of how a search engine could implement semantic similarity. This problem can be solved using machine learning algorithms, in particular we will see an implementation using neuronal networks. 
+As we mentioned previously, search engines resolve partially the problem of semantic similarity, this is because they analyze pages and consider the co-occurrence of two words~\cite{bollegala2007measuring}, if two words have high co-occurrence they may have similar meaning. This is a very naive approach but it gives us the idea of how a search engine could implement semantic similarity. This problem can be solved using machine learning algorithms, in particular we will see an implementation using neural networks.
 
 \subsection{Machine Learning Techniques}
 \paragraph{}
@@ -82,11 +82,11 @@ A feature is an measurable piece of information relevant for solving a computati
 \newline
 A simple context-independent feature is the string comparison, this could be implemented using string similarity measures like edit distance, Dice coefficient score, and left and right Hamming distance. The similarity could also be computed by training finite-state transducers. The transducers assign a score to any string pair by summing over all alignments and scoring all contained character n-grams and then combine these score using a log-linear model~\cite{dredze2010entity}.\\
 \newline
-Another context-independent feature is the entity popularity. This feature is based on the principle that a popular entity is more likely to be found in a text. Many state-of-the-art systems define the popularity using the count information from Wikipedia, and define a feature $Pop(e_i)$ for each candidate entity $e_i \in E_m$ of the entity mention $m$ as the proportion of links the mention form m as the anchor text which point to the candidate entity $e_i$. To express the popularity of the candidate Dredze et al.~\cite{dredze2010entity} used features from Wikipedia's graph structure like indegree and outdegree links of a node and the page size in bytes. They also used Google's PageRank indicating the rank of the candidate entity's corresponding Wikipedia page. The popularity of an entity can be very useful for increasing the performance of a system as shows an experiment of Ji and Grishman that evaluated a naive candidate ranking model using only the Web popularity can achieve 71\% accuracy - END.
+Another context-independent feature is the entity popularity. This feature is based on the principle that a popular entity is more likely to be found in a text. To express the popularity of the candidate Dredze et al.~\cite{dredze2010entity} used features from Wikipedia's graph structure like indegree and outdegree links of a node and the page size in bytes. They also used Google's PageRank indicating the rank of the candidate entity's corresponding Wikipedia page. The popularity of an entity can be very useful for increasing the performance of a system as shows an experiment of Ji and Grishman~\cite{ji2011knowledge} that evaluated a naive candidate ranking model using only the Web popularity and achieved 71\% accuracy in the TAC-KBP2010 track.\\
 \newline
 We can also consider the type (i.e. people, location, and organization) of the entity as a feature, this feature is used to compare the type of the entity mention with the type of the candidate in the knowledge base. This feature can be extracted by a Named Entity Recognizer (NER) or inferred from Wikipedia and DBPedia.
 
-\item \textbf{Context-dependent} 
+\item \textbf{Context-dependent}
 \end{itemize}
 
 \subsection{Techniques}
