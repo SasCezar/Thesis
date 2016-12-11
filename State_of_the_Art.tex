@@ -19,14 +19,14 @@ Where:
 \item $M$ is the set of all mentions
 \item $E_m$ is the set of candidate entities for m
 \end{itemize}
-\paragraph{} TO DO - Intro to the next paragraph
+\pagebreak
+\paragraph{} The candidate generation module is critical for the success of an entity linking system. According to experiments conduced by Hachey et al.~\cite{hachey2013evaluating} a precise candidate generator can also improve the linking system and increase the total accuracy.
 
 \paragraph{}
-We can classify these techniques in three groups:
+We will review the main approaches that have been used for the candidate generation. These techniques can be divided:
 \begin{itemize}[noitemsep,  topsep=10pt]
 \item Name Dictionary based techniques
 \item Search Engine based techniques
-\item Machine Learning based techniques
 \end{itemize}
 
 \subsection{Name Dictionary Techniques}
@@ -34,7 +34,7 @@ We can classify these techniques in three groups:
 The structure of Wikipedia provides a useful set of feature for generating candidate entities, like entity pages, redirect pages, disambiguation pages and hyperlinks in Wikipedia articles. This kind of entity linking systems uses different combination of these feature to build an offline dictionary $D$ between entity name and possible mapping entities. Then the entity is compared with the dictionary's keys, the corresponding value, if the key exist, is a list of candidates for the entity. The key entity comparison can be made using exact matching or partial matching. 
 
 \paragraph{}
-This approach is used by KEA~\cite{waitelonisnamed} where they map each token to a gazetteer compiled from the DBPedia entities labels, redirect labels, and disambiguation labels. For the candidate generation KEA uses an exact matching  after normalizing the entity. They also resolve overlapping tokens by preferring longer tokens over short ones.
+This approach is used by KEA~\cite{waitelonisnamed} where they map each token to a gazetteer compiled from the DBPedia entities labels, redirect labels, and disambiguation labels. For the candidate generation KEA uses an exact matching  after normalizing the entity. They also resolve overlapping tokens by preferring longer tokens over short ones. This is based on the assumption that longer token are more descriptive.
 
 \paragraph{}
 Even if name dictionary is the main technique used by many entity linking systems it has some limitation. A dictionary structure cannot represent the semantic similarity between words. Its concept of similarity between words is the value of each key, so if a word is in the list then is similar otherwise no. This problem is partially solved in systems that uses search engines.
@@ -50,7 +50,7 @@ An example of this approach is the system proposed by Han and Zhao~\cite{han2009
 A different approach is used by UniMiB~\cite{caliano2016unimib}, they built an index using Apache Lucene on the title (\textit{rdf:label}), extended abstract(\textit{dbpedia:abstract}), type (\textit{dbo:type}), PageRank, and url from DBpedia. Then for candidate extraction they query Lucene using the entity mention and obtain a list of the documents in which the mention is contained.
 
 \paragraph{}
-As we mentioned previously, search engines resolve partially the problem of semantic similarity, this is because they analyze pages and consider the co-occurrence of two words~\cite{bollegala2007measuring}, if two words have high co-occurrence they may have similar meaning. This is a very naive approach but it gives us the idea of how a search engine could implement semantic similarity. This problem can be solved using machine learning algorithms, in particular we will see an implementation using artificial neural networks.
+As we mentioned previously, search engines resolve partially the problem of semantic similarity. This is because they analyze pages and consider the co-occurrence of two words~\cite{bollegala2007measuring}, if two words have high co-occurrence they may have similar meaning. This is a very naive approach but it gives us the idea of how a search engine could implement semantic similarity. This problem can be solved using machine learning algorithms, in particular we will see an implementation using deep learning.
 
 \section{Candidates Ranking}
 \paragraph{}
@@ -66,7 +66,7 @@ Where:
 
 \paragraph{}
 The $rank$ function can be defined in many ways, and use different features and techniques for calculating the final score so, before we analyze the different techniques, is important to understand the various types of features used.
-
+\pagebreak
 \subsection{Features}
 A feature is a measurable piece of information relevant for solving a computational problem. There are a large number of feature that are used to describe different aspects of an entity. For the candidate entity ranking task features can be divided into context-independent features and context-dependent features.
 
@@ -76,17 +76,17 @@ A feature is a measurable piece of information relevant for solving a computatio
 
 \paragraph{} Another context-independent feature is the entity popularity. This feature is based on the principle that a popular entity is more likely to be found in a text. To express the popularity of the candidate Dredze et al.~\cite{dredze2010entity} used features from Wikipedia's graph structure like indegree and outdegree links of a node and the page size in bytes. They also used Google's PageRank indicating the rank of the candidate entity's corresponding Wikipedia page. The popularity of an entity can be very useful for increasing the performance of a system as shows an experiment of Ji and Grishman~\cite{ji2011knowledge} that evaluated a naive candidate ranking model using only the Web popularity and achieved 71\% accuracy in the TAC-KBP2010 track.
 
-\paragraph{} We can also consider the type (i.e. people, location, and organization) of the entity as a feature, this feature is used to compare the type of the entity mention with the type of the candidate in the knowledge base. This feature can be extracted by a Named Entity Recognizer (NER) or inferred from Wikipedia and DBPedia.
+\paragraph{} We can also consider the type (i.e. person, location, and organization) of the entity as a feature. This feature is used to compare the type of the entity mention with the type of the candidate in the knowledge base. The type can be extracted by a Named Entity Recognizer (NER) or inferred from Wikipedia and DBPedia.
 
 \paragraph{Context-dependent} features use the textual context where the entity mention appears and also others entity mentions which need to be linked in the same document. The context allows a more precise disambiguation of the candidates. There are various form for context representation:
 
 \begin{itemize}[topsep=10pt]
 \item \textbf{Bag of words} represents the context as a bag of words collected from the text where the entity mention appears or a window of size $n$ centered on the entity. The context can be described using a bag on the whole Wikipedia entity article, or the top-k token TF-IDF (term frequency–inverse document frequency) summary of the Wikipedia page~\cite{ratinov2011local}.  
 
-\item \textbf{Concept vector} describe the context by extracting some key-phrases, named entity, categories, Wikipedia concepts, and related links in the page. hen compose a vector to represent the semantic context of the entity in the document. Some examples can be found in the work of Dredze and his team~\cite{dredze2010entity}
+\item \textbf{Concept vector} describe the context by extracting some key-phrases, named entity, categories, Wikipedia concepts, and related links in the page. Then compose a vector to represent the semantic context of the entity in the document. Some examples can be found in the work of Dredze and his team~\cite{dredze2010entity}
 \end{itemize}
 
-\paragraph{} A very simple usage of these context representation is to calculate the distance between the vectors.
+\paragraph{} A very simple usage of these context representation is to convert the contexts into vectors and calculate the distance between them. The result is the similarity between the two context.  
 
 \paragraph{} A different context-dependent feature is the coherence between the entities. Many state-of-the-art linking systems rely on the idea that a document contains coherent entities form one or few related topics~\cite{hoffart2011robust}. To measure the coherence some approaches adopt the Wikipedia Link-based Measure (WLM) described in~\cite{milne2008learning} by assuming that two Wikipedia entities are semantically related if there are many Wikipedia articles that link to both.
 
@@ -98,16 +98,15 @@ A feature is a measurable piece of information relevant for solving a computatio
 \begin{itemize}[topsep=10pt]
 \item \textbf{Supervised Ranking Methods} build a model that predicts the correct class for the input data. The model is trained using a set of annotated data. The model is used to assign the correct map to the entity mention.\\
 \newline
-The candidate ranking problem can be formulated as a binary classification problem. Given a training pair $<\!\!m, e_i\!\!>$ of an entity mention and a candidate entity a classifier is trained to decide whether the entity mention refers to the candidate entity or not. For the testing for each test pair $<\!\!m, e_i\!\!>$ the classifier returns a label indicating if the candidate entity $e_i$ is the correct candidate for the entity mention $m$. The pairs $<\!\!m, e_i\!\!>$ are represented using a vector of feature. Examples of this approach can be found in these systems~\cite{hoffart2011robust, guo2013link}.
+The candidate ranking problem can be formulated as a binary classification problem. Given a training pair $<\!\!m, e_i\!\!>$ of an entity mention and a candidate entity a classifier is trained to decide whether the entity mention refers to the candidate entity or not. In the testing phase for each test pair $<\!\!m, e_i\!\!>$ the classifier returns a label indicating if the candidate entity $e_i$ is the correct candidate for the entity mention $m$. The pairs $<\!\!m, e_i\!\!>$ are represented using a vector of feature. Examples of this approach can be found in these systems~\cite{hoffart2011robust, guo2013link}.
 
 \item \textbf{Unsupervised Ranking Methods} learn from unlabeled data how to differentiate the input data. Unlike the supervised methods the model is generated from the data structure, not from the relation between the data an the correct mapping. \\
 \newline
-The unsupervised Vector Space Model (VSM) ~\cite{salton1975vector} is an algebraic model for representing text documents (and any objects, in general) as vectors of identifiers. VSM is used by many entity linking systems~\cite{cucerzan2007large}. The VSM calculates the difference between the vectorial representation of the entity mention and the one of the candidate entity. Then the candidate with the higher similarity in selected as the mapping entity for the entity mention. Specifically, Cucerzan et al~\cite{cucerzan2007large} extracted all the entity reference mentioned in the candidate entity article and all the category tags associated with the candidate entity to build the vector representation for the candidate entity. For the entity mention, the vector is built using the set of entity reference appearing in its context. Then for the mapping they select the candidate with the highest similarity.
-\\\\
-TODO UNIBA?
-
+The unsupervised Vector Space Model (VSM)~\cite{salton1975vector} is an algebraic model for representing text documents (and any objects, in general) as vectors of identifiers. VSM is used by many entity linking systems~\cite{cucerzan2007large}. The VSM calculates the difference between the vectorial representation of the entity mention and the one of the candidate entity. Then the candidate with the higher similarity in selected as the mapping entity for the entity mention. Specifically, Cucerzan et al~\cite{cucerzan2007large} extracted all the entity reference mentioned in the candidate entity article and all the category tags associated with the candidate entity to build the vector representation for the candidate entity. For the entity mention, the vector is built using the set of entity reference appearing in its context. The mapping is done by selecting the candidate with the highest similarity.\\
+\newline
+The UniBa team~\cite{basile2015uniba} uses a modified version of the Lesk algorithm. The Lesk algorithm is a Word Sense Disambiguation algorithm based on the assumption that words in a given section of text will tend to share common topic. The algorithm defines the sense by using the word overlapping of the sentence with a definition in a dictionary. UniBa replaced the concept of word overlapping with the concept of semantic similarity computed using a Distributional Semantic Model (DSM). The DSM is trained using the latest Wikipedia dump.
 \end{itemize}
-
+\pagebreak
 \paragraph{Feature based techniques} are also very popular. As we mentioned before, some naive entity linking systems can achieve good result using only one or more feature.
 \paragraph{} In the work of UniMiB~\cite{caliano2016unimib} they used a combination of Jaro-Winkler distance, popularity, and  coherence to rank the candidates. We already have seen they candidate selection technique in the previous section. After the candidates are extracted they calculate a knowledge-base score $KB(c_k)$ for each candidate $c_k$ of an entity $e_i$ as follow: \[KB(e_i, c_k) = (\alpha * lex(e_i, l_{ck}) + (1 - \alpha) * (cos_k(e^{*}_{i}, a_{ck}))) + R(c_k)\]
 Where:
@@ -125,10 +124,8 @@ Then for the entity mention mapping they select the candidate with the highest s
 \paragraph{}
 In the previous section we described how each entity mention has a corresponding entity in the KB. This is not always, in fact some entity mentions might not have a corresponding record in the KB, therefore we have to deal with the problem of predicting unlinkable mentions.
 \paragraph{}
-This problem can be ignored and suppose all our KB contains all the mapping entities for the entity mentions. Some approaches~\cite{todo} utilize a simple heuristic to predict unlinkable entity mentions. If the candidate set $E_m$ for the mention $m$ is empty then the entity mention is unlinkable.
+This problem can be ignored and suppose all our KB contains all the mapping entities for the entity mentions. Some approaches~\cite{cucerzan2007large} utilize a simple heuristic to predict unlinkable entity mentions. If the candidate set $E_m$ for the mention $m$ is empty then the entity mention is unlinkable.
 \paragraph{}
-A more used approach is based on a threshold. In these systems~\cite{todo}, the top-ranked entity $e_{top}$ is associated with a score $s_{top}$. If the score $s_{top}$ is smaller than a threshold $\tau$, then the system returns a NIL for the entity mention $m$. Otherwise they return $e_{top}$ as the mapping entity for the entity mention. The threshold $\tau$ is usually learned from the training data.
+A more used approach is based on a threshold. In these systems the top-ranked entity $e_{top}$ is associated with a score $s_{top}$. If the score $s_{top}$ is smaller than a threshold $\tau$, then the system returns a NIL for the entity mention $m$. Otherwise they return $e_{top}$ as the mapping entity for the entity mention. The threshold $\tau$ is usually learned from the training data.
 \paragraph{}
-The NIL prediction can also be acomplished using supervised machine learning techniques. Specifically, methods~\cite{todo} use a binary classification technique. Given a pair of an entity mention and its top-ranked candidate $<\!\!m, e_{top}\!\!>$, a binary classifier is used to decide if the candidate entity $e_{top}$ is the correct mapping for the entity mention $m$. As previously described the $<\!\!m, e_{top}\!\!>$ is represented by a feature vector, as in the Candidate Entity Ranking module.
-
-
+The NIL prediction can also be acomplished using supervised machine learning techniques. Specifically, methods~\cite{ratinov2011local, zheng2010learning} use a binary classification technique. Given a pair of an entity mention and its top-ranked candidate $<\!\!m, e_{top}\!\!>$, a binary classifier is used to decide if the candidate entity $e_{top}$ is the correct mapping for the entity mention $m$. As previously described the $<\!\!m, e_{top}\!\!>$ is represented by a feature vector, as in the Candidate Entity Ranking module.
