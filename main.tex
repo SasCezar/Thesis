@@ -3,12 +3,18 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{enumitem}
+\usepackage[final]{pdfpages}
+\usepackage{hyperref}
 
 \pagestyle{plain} 
 
 \begin{document}
+\includepdf{frontispiece.pdf}
 \tableofcontents
 \include{Introduction}
 \include{State_of_the_Art}
+\include{Proposed_Solution}
+\include{Experiments}
+\include{Conclusions}
 \include{Bibliography}
 \end{document}
