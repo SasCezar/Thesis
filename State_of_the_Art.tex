@@ -11,7 +11,9 @@ The researchers of \cite{shen2015entity} divide the main task in three modules:
 \section{Candidates Generation}
 \paragraph{}
 Formally, the candidate entity generation can be described as follows:
-\[\forall m \in M \; find \; E_m\]
+\begin{equation}
+\forall m \in M \; find \; E_m
+\end{equation}
 Where:
 
 \begin{itemize}[noitemsep,  topsep=10pt]
@@ -19,6 +21,7 @@ Where:
 \item $M$ is the set of all mentions
 \item $E_m$ is the set of candidate entities for m
 \end{itemize}
+
 \pagebreak
 \paragraph{} The candidate generation module is critical for the success of an entity linking system. According to experiments conduced by Hachey et al.~\cite{hachey2013evaluating} a precise candidate generator can also improve the linking system and increase the total accuracy.
 
@@ -55,7 +58,9 @@ As we mentioned previously, search engines resolve partially the problem of sema
 \section{Candidates Ranking}
 \paragraph{}
 After the candidates extraction, defined in the previous section, we need to rank the candidates. The ranking process can be defined as follows:
-\[\forall e_m \in E_m \; rank(e_m)\]
+\begin{equation}
+\forall e_m \in E_m \; rank(e_m)
+\end{equation}
 Where:
 
 \begin{itemize}[noitemsep,  topsep=10pt]
@@ -108,7 +113,10 @@ The UniBa team~\cite{basile2015uniba} uses a modified version of the Lesk algori
 \end{itemize}
 \pagebreak
 \paragraph{Feature based techniques} are also very popular. As we mentioned before, some naive entity linking systems can achieve good result using only one or more feature.
-\paragraph{} In the work of UniMiB~\cite{caliano2016unimib} they used a combination of Jaro-Winkler distance, popularity, and  coherence to rank the candidates. We already have seen they candidate selection technique in the previous section. After the candidates are extracted they calculate a knowledge-base score $KB(c_k)$ for each candidate $c_k$ of an entity $e_i$ as follow: \[KB(e_i, c_k) = (\alpha * lex(e_i, l_{ck}) + (1 - \alpha) * (cos_k(e^{*}_{i}, a_{ck}))) + R(c_k)\]
+\paragraph{} In the work of UniMiB~\cite{caliano2016unimib} they used a combination of Jaro-Winkler distance, popularity, and  coherence to rank the candidates. We already have seen they candidate selection technique in the previous section. After the candidates are extracted they calculate a knowledge-base score $KB(c_k)$ for each candidate $c_k$ of an entity $e_i$ as follow: 
+\begin{equation}
+KB(e_i, c_k) = (\alpha * lex(e_i, l_{ck}) + (1 - \alpha) * (cos_k(e^{*}_{i}, a_{ck}))) + R(c_k)
+\end{equation}
 Where:
 
 \begin{itemize}[noitemsep,  topsep=10pt]
