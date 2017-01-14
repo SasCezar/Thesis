@@ -1,13 +1,83 @@
-\chapter{Proposed Solution}
-\section{Pipeline}
-Introduction of the pipeline
+\chapter{Word Embeddings for Named-Entity Linking}
+
+\paragraph{}
+In the NEL state-of-the-art chapter we took a look at some methods for the entity linking task, and described some flaws of these models, one of which was the lack of a good semantic representation of the entities. This problem can be addressed using word embedding techniques for representing entities using a real vector space. 
+
+\nocite{sebastianruder}
+\nocite{turian2010word}
+\section{Word Embeddings}
+\paragraph{}
+A word representation is a mathematical object associated with a word, typically a vector. Word embedding techniques development began with the work of Yoshua Bengio et al.~\cite{bengio2003neural} and are a set of language modeling and feature learning techniques in NLP used for word representation. Word embeddings are based on the idea that contextual information alone constitutes a practical representation of linguistic items. Word representation model can use a Distributional Word Representation or a Distributed Representation (also referred to as Word Embeddings).
+
+\begin{itemize}[itemsep = 0.1em]
+\item Distributional Word Representation: are based on co-occurrence context and on the distributional hypothesis:  ``linguistic items with similar distributions have similar meanings", hence the similarity is expressed in terms of the similarity of the distribution. Some common representation techniques include Latent Semantic Analysis (LSA) and Latent Dirichlet Allocation (LDA). Distributional models are memory intensive and not as efficient (not a compact representation) as distributed representations.
+
+\item Distributed Representation: are compact, dense and low dimensional representation, where each dimension of the embedding represents a latent feature of the word, hopefully capturing useful syntactic and semantic properties. A distributed representation is compact, in the sense that it can represent an exponential number of clusters in the number of dimensions. Distributed representation comes with a cost as they are computational more demanding and the algorithms are not simple like other techniques. The most used approach for training distributed models is the use of Neural Networks, some examples are Collobert and Weston model, and Word2Vec.
+\end{itemize}
+
+\paragraph{}
+Word Embeddings have also surprisingly shown that word similarity goes beyond simple syntactic regularities. It was found that we can perform simple algebraic operation on word's vector like \(vector("King")-vector("Man")+vector("Woman")\) and the result is a vector that is close to \(vector("Queen")\).
+
+\subsection{Word2Vec}
+One of the most used and popular model for word embedding is Word2Vec. It was proposed by Tomas Mikolov and his team at Google~\cite{mikolov2013efficient}. In their work they proposed two efficient model architectures for computing continuous vector representation of words. These models use a modified version of a Feedforward Neural Network Language Model (NNLM) where the hidden layer is removed to reduce the computational cost.
+
+\paragraph{Continuous Bag-of-Words Model (CBOW)}
+This model uses \(n\) words before and after the target word \(w_t\) to predict it as shown in the figure above. This architecture is called Bag-of-Words model as the order of words in the history does not influence the projection, and continuous as it uses continuous distributed representation of the context.
+
+\paragraph{Continuous Skip-gram Model}
+Is similar to the CBOW architecture, but instead of predicting the current word, the model uses the current word as a input to a classifier and predict words within a certain range before and after the current word (see figure \ref{fig:w2v}). Increasing the range also increases the quality of the resulting words vector, but at cost of computational complexity. Also distant words are less related to the current one so the researchers gave less weight to distant words.
+
+\begin{figure}[ht]
+\includegraphics[width=\textwidth]{word2vec.jpg}
+\caption{Word2Vec architectures}
+\label{fig:w2v}
+\end{figure}
+
+\newpage
+\section{Proposed Solution}
+\paragraph{}Let's now introduce our solution. We can have an overview of the pipeline in the figure \ref{fig:pipeline}. In the next sections we will describe each module of the pipeline. Finally in the next chapter we will present the results achieved by our system.
+
+\begin{figure}[ht]
+\begin{center}
+Entity - Preprocessing - CG - CR - Output
+\end{center}   
+\caption{Pipeline}
+\label{fig:pipeline}
+\end{figure}
+
+\subsection{Knowledge Base}
+The knowledge bases we used for our NEL system are Wikipedia and DBPedia. They are very similar in terms of content, in fact DBPedia is generated from Wikipedia data, the main difference is that the data in DBPedia are more structured. DBPedia is a project that aims to generate structured information from the online encyclopedia Wikipedia. The data on DBPedia follows the linked data principles. These principles are described by Tim Berners-Lee~\cite{timbernerslee2006linkeddata} as follows:
+
+\begin{itemize}[itemsep = 0.1em]
+\item Use URIs to name (identify) things.
+\item Use HTTP URIs so that these things can be looked up (interpreted, ``dereferenced").
+\item Provide useful information about what a name identifies when it's looked up, using open standards such as RDF, SPARQL, etc.
+\item Refer to other things using their HTTP URI-based names when publishing data on the Web.
+\end{itemize}
+
+\paragraph{}
+The RDF (Resource Description Framework) is a framework for conceptual description of web resources. It is based on the concept of making statements about resources. Thes statements are structurated as triples following the \textit{subject–predicate–object} structure. The subject denotes the resource, and the predicate denotes aspects of the resource, and expresses a relationship between the subject and the object. RDF is used by DBPedia for storing the information and accessing using a SQL-like language called SPARQL.
+
+\paragraph{}
+For our requirements we used DBPedia for these dump datasets:
+\begin{itemize}
+\item TODO
+\end{itemize} 
+We also used a dump of the Wikipedia database for training our model using word embeddings techniques.
+
+
 \subsection{Preprocessing}
-Preprocessing\\
-Query expansion
+\paragraph{} 
+Before we start to generate the candidates, we need to do some work on the entity to resolve capitalization problems and typos like missing spaces or wrong word separators. This is necessary as our model is very rigid on  the surface form of the input. Our preprocessing consist in a capitalization of the entity using a list of stop words containing common words that don't require to be capitalized (e.g. "a", "of", "the"). For increasing the probability of finding the correct entity, and improve the retrieval performance we also perform a query expansion. In our case we take the capitalized entity and generate additional query that will be used to interrogate the model.
+
 \subsection{Candidate Generation}
+\paragraph{}
+For the candidated generation we need to describe how the model was generated. We used a dump of wikipedia and the Wiki2Vec tool~\cite{wiki2vec}.
+\paragraph{}
 Wiki2Vec training \\
 How the model is used for the candidate generation
-\subsection{Candidate Ranking}
-How the candidates are ranked from the model + disambiguation \& popularity
-\subsection{NIL Prediction}
-This model is good for the NIL detection based on the assumption that if the entity mention is not in model then it is not part of the domain.
+
+\subsection{Candidate Ranking and NIL Prediction}
+Cosine similarity\\
+PageRank\\
+Disambiguation using the type
