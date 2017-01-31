@@ -1,15 +1,108 @@
+
 \chapter{Experiments}
 
-
 \section{Datasets and Settings}
-	\subsection{Dataset}
-	- challenge description	\\
-	- Training data and dev\\
-	- Knowleadge base (dbpedia ita eng stats)
-	\subsection{Settings}
-	- Parameters \\
-	- Performance measure
+\subsection{Datasets}
+The system was trained and optimized using the datasets from the Making Sense of Microposts challenge. The task of the challenge is to automatically recognize entities and their type from English tweets, and link them to the corresponding DBpedia resource.  
+
+We used the datasets from the 2015 and 2016 challenge. These datasets are extracted from a subsets of tweets published between 2011 and 2015 selected using hashtags. These tweets are of two types, events tweet which are more likely to contain entities, and non-event tweets, these are more likely to not contain any entity.
+
+Another challenge on entity linking is NEEL-IT organized by EVALITA, they focus on the development of NEEL system for Italian tweets.
+
+
+These type of challenge provide two or three datasets, the first is called will be used for the training of the  models, an optional one used for fine tuning of the algorithms, and the third one will be used for the challenge for evaluating the system performance. Datasets also come with an annotated version of the tweets that contains the correct entities and links. This is called the ground truth or gold standard, and is used to evaluate the performance of the system, and allows researchers to perform changes on their system having a reference score.
+
+\pagebreak
+
+\subsection{Performance Measures}
+The performance of the NEL systems is evaluated comparing the final output result with the Ground Standard (GS), which contains all the correct links for the entities. Given the gold standard we can consider each pair \(<\!entity, link\!>\) as:
+\begin{itemize}[itemsep = 0.1em]
+\item True Positive (\(tp\)): if the system correctly recognize the link of the entity.
+\item False Positive (\(fp\)): if the link recognized by the system is different by the one in the GS.
+\item True Negative (\(tn\)): if the link is not recognized by the system and in the GS. In this case the link is ``NIL".
+\item False Negative (\(fn\)): if the system recognize the entity, but the entity is not recognized by the GS. In other words the system returns ''NIL" but the GS has a link.
+\end{itemize} 
+
+Using these definitions we can calculate the following performance scores:
+\begin{itemize}[itemsep = 0.1em]
+\item Precision: represents the number of correctly labeled named entities over the total number of labeled named entities. This value is defined between 0 and 1.
+\begin{equation}
+precision = \frac{tp}{tp+fp}
+\end{equation}
+
+\item Recall: represents the number of correctly labeled named entities over the total number of entities in the gold standard. This value is defined between 0 and 1.
+\begin{equation}
+recall = \frac{tp}{tn+fn}
+\end{equation}
+\item F1 Score: is the harmonic mean of the precision and the recall. The F1 metric weights recall and precision equally. It is defined between 0 and 1. 
+\begin{equation}
+F_1 = 2 \cdot \frac{precision \cdot recall}{precision+recall}
+\end{equation}
+\item NIL Score: is equivalent to the recall for the NIL labeled entities.
+\end{itemize}	
+
+\newpage
 
 \section{Experimental results}
-Challenges performance\\
-Time performance
+\paragraph{} Now we will introduce the results achieved by our system and also do a quick analysis over its weaknesses. The results are presented showing the impact of each component of our pipeline on the performance measures. The reference results are evaluated without any preprocessing, disambiguation, or PageRank. In the Figure \ref{fig:preprocessing_off} we can see the results for both Italian (TODO Insert also test results) and English challenges.
+
+
+\begin{figure}[ht]
+\includegraphics[width=\textwidth]{neel_results_no_preprocessing.jpg}
+\caption{Reference results}
+\label{fig:preprocessing_off}
+\end{figure}
+\vspace{-20pt}
+
+\subsection{Preprocessing Only}
+\paragraph{}
+The reference results are promising, considering that no work on entities was done. If we reduce, even in a small amount, one of the most common problem on entities from tweets, the formatting of the entity, our results will certainly benefit. This is where our preprocessing model is helpful, we can notice in the results in Figure \ref{fig:preprocessing_only} that preprocessing entities is a must in every NEEL system. In our case, the model is very rigid over the surface form of the input entity, for example, in the reference experiment, the entity ``football\_league" is not recognized by the model, with the preprocessing the system returns the correct link using ``DBPEDIA\_ID/Football\_League". Another example is the entity ``f1", in the reference experiment this is labeled with the wrong link ``dbpedia.org/resource/Family\_1", if properly capitalized in ``F1" the result is the correct link ``dbpedia.org/resource/Formula\_One". This is also valid for the Italian tweets, for example the entity ``FEDEZ", an Italian singer, is recognized only in the experiment with the preprocessor enabled. The preprocessing is not always helpful, for example the entity ``repubblicait", form Italian tweets, which is the account of an Italian newspaper called ``La Repubblica", after the preprocessing is not recognized anymore.
+
+\begin{figure}[ht]
+\includegraphics[width=\textwidth]{neel_results_only_preprocessing.jpg}
+\caption{Results using Preprocessing}
+\label{fig:preprocessing_only}
+\end{figure}
+\vspace{-20pt}
+
+\newpage
+
+\subsection{DBpedia Type}
+\paragraph{}
+The next experiment configuration include the preprocessing of the entity and the use of the DBpedia type to disambiguate the candidates. As we can see in Figure \ref{fig:dbpedia_type} the performance increase is not so high as for the preprocessing, mostly because there is a very small amount of difference between the type of each ``DBPEDIA\_ID/Entity" in the candidates list is very small. An example when this approach work is the entity ``Interstellar", the first match of the system without type disambiguation is ``dbpedia.org/resource/Interstellar\_travel", but if we use the type provided by the NER, we can match with the type of the correct entity ``dbpedia.org/resource/Interstellar\_(film)". So the use of this information is mostly used in case of very different entities.
+
+
+\vspace{-5pt}
+\begin{figure}[ht]
+\includegraphics[width=\textwidth]{neel_results_preprocessing_type.jpg}
+\caption{Results using DBpedia Type}
+\label{fig:dbpedia_type}
+\end{figure}
+\vspace{-20pt}
+
+\subsection{DBpedia Disambiguation and PageRank}
+\paragraph{}
+The last experiment consist in the use of the DBpedia disambiguation list and the PageRank. We can see in the Figure \ref{fig:all_modules} that this bring an increase of about 1\% but could also reduce some performance measures.  An example of entity that helps is ``Amy\_Anderson", the PageRank helps the disambiguation between Amy Anderson the architect, the golfer, and the correct one the actor. The main problem with the PageRank is that the values we used are evaluated inside the Wikipedia, and not over the web, this means that the popularity of each page is not the same as the popularity of the entity perceived by people. Also some of the entity that now are labeled wrongly are these that have a common name and are similar in popularity, for example the entity ``Google", from the correct ``dbpedia.org/resource/Google" will be wrongly disambiguated with ``dbpedia.org/resource/Google\_Search".
+
+
+\vspace{-5pt}
+\begin{figure}[ht]
+\includegraphics[width=\textwidth]{neel_results_all_modules.jpg}
+\caption{Results using DBpedia disambiguation and PageRank}
+\label{fig:all_modules}
+\end{figure}
+\vspace{-25pt}
+
+\subsection{Italian Tweets}
+\paragraph{}
+We now analyze the results of the Italian model. As shown in Figure \ref{fig:evalita_results} most of the scores remain the same as for the English tweets, and also the analysis do not change. The only score that drops is the NIL Score, mostly because there are a lot of common names and our models returns a list of possible candidates that are not related to the entity. A major difference from the English tweets is in the performance impact of the PageRank. This time the PageRank is very useful, for example the entity ``Monti" is easily disambiguated as the ex Italian prime minister ``Mario Monti". 
+
+
+\vspace{-10pt}
+\begin{figure}[ht]
+\includegraphics[width=\textwidth]{evalita_results.jpg}
+\caption{EVALITA Challenge results}
+\label{fig:evalita_results}
+\end{figure}
+
+
