@@ -16,13 +16,13 @@ Our solution uses a Neural Network Language Model called Word Embeddings, this m
 
 \pagebreak
 
-
+\vspace{-10pt}
 \begin{figure}[h!]
 \includegraphics[width=\textwidth]{word-embeddings-example.png}
-\caption{Word embedding representation}
+\caption{Word Embeddings representation}
 \label{fig:word_embedding_similarity}
 \end{figure}
-
+\vspace{-10pt}
 
 Using Bag-of-Words the entity ``Frozen" will result in a wrong link to ``Frozen\_(soundtrack)" as they have in common more words, instead using Word Embeddings we correctly link the entity to the film as it better describes semantic properties.
 
@@ -35,7 +35,7 @@ Using Bag-of-Words the entity ``Frozen" will result in a wrong link to ``Frozen\
 A word representation is a mathematical object associated with a word, typically a vector. Each dimension’s value corresponds to a feature and might even have a semantic or grammatical interpretation. Word representation models can use a Distributional Word Representation or a Distributed Representation (also referred to as Word Embeddings).
 
 \begin{itemize}[itemsep = 0.1em]
-\item Distributional Word Representation: are based on co-occurrence context and on the distributional hypothesis:  ``linguistic items with similar distributions have similar meanings", hence the similarity is expressed in terms of the similarity of the distribution. Some common representation techniques include Latent Semantic Analysis (LSA) and Latent Dirichlet Allocation (LDA). Distributional models are memory intensive and not as efficient (not a compact representation) as distributed representations.
+\item Distributional Word Representation: are based on co-occurrence context and on the distributional hypothesis:  ``linguistic items with similar distributions have similar meanings", hence the similarity is expressed in terms of the similarity of the distribution. Some common representation techniques include Latent Semantic Analysis and Latent Dirichlet Allocation. Distributional models are memory intensive and not as efficient (not a compact representation) as distributed representations.
 
 \item Distributed Representation: are compact, dense and low dimensional representation, where each dimension of the embedding represents a latent feature of the word, hopefully capturing useful syntactic and semantic properties. A distributed representation is compact, in the sense that it can represent an exponential number of clusters in the number of dimensions. Distributed representation comes with a cost as they are computational more demanding and the algorithms are not simple like other techniques. The most used approach for training distributed models are neural networks, some examples are Collobert and Weston model, and Word2Vec.
 \end{itemize}
@@ -46,6 +46,8 @@ Word embedding techniques development began with the work of Yoshua Bengio et al
 It was also found that the generated vectors have more than syntactic regularities, we can also perform simple algebraic operation on word's vector like \(\mathit{WE} ("King")-\mathit{WE}("Man")+\mathit{WE} ("Woman")\) and obtain a vector that is close to \(\mathit{WE}("Queen")\).
 
 One of the most used and popular tool for word embedding is Word2Vec proposed by Tomas Mikolov and his team at Google~\cite{mikolov2013efficient}. In their work, they present two efficient model architectures for computing continuous vector representation of words. These models use a modified version of a feedforward neural network language model where the hidden layer is removed to reduce the computational cost.
+
+\pagebreak
 
 \paragraph{Continuous Bag-of-Words Model (CBOW)}
 This model uses \(n\) words before and after the target word \(w_t\) to predict it as shown in the Figure \ref{fig:w2v}. This architecture is called Bag-of-Words model as the order of words in the history does not influence the projection, and continuous as it uses continuous distributed representation of the context.
@@ -67,15 +69,15 @@ It is similar to the CBOW architecture, but instead of predicting the current wo
 
 \vspace{-10pt}
 \begin{figure}[h!]
-\includegraphics[width=\textwidth]{our_pipeline.png}  
-\caption{Pipeline - IN REWORK}
+\includegraphics[width=\textwidth]{material_pipeline.png}  
+\caption{Pipeline}
 \label{fig:pipeline}
 \end{figure}
 \vspace{-10pt}
 
 \subsection{Knowledge Base}
 \paragraph{}
-A knowledge base is a machine readable centralized repository for information. The knowledge bases we used for our NEL system are Wikipedia and DBPedia. They are very similar in terms of content, in fact DBPedia is generated from Wikipedia data, the main difference is that the data in DBPedia are more structured and machine readable as the project aims to generate structured information from the online encyclopedia Wikipedia. The data on DBPedia follows the linked data principles. These principles are described by Tim Berners-Lee~\cite{timbernerslee2006linkeddata} as follows:
+A knowledge base is a machine readable centralized repository for information. The knowledge bases we used for our NEL system are Wikipedia and DBpedia. They are very similar in terms of content, in fact DBpedia is generated from Wikipedia data, the main difference is that the data in DBPedia are more structured and machine readable as the project aims to generate structured information from the online encyclopedia Wikipedia. The data on DBPedia follows the linked data principles. These principles are described by Tim Berners-Lee~\cite{timbernerslee2006linkeddata} as follows:
 
 \begin{itemize}[itemsep = 0.1em]
 \item Use URIs to name (identify) things.
@@ -85,13 +87,13 @@ A knowledge base is a machine readable centralized repository for information. T
 \end{itemize}
 
 \paragraph{}
-The RDF (Resource Description Framework) is a framework for conceptual description of web resources. It is based on the concept of making statements about resources. Thes statements are structurated as triples following the \textit{subject–predicate–object} structure. The subject denotes the resource, and the predicate denotes aspects of the resource, and expresses a relationship between the subject and the object. RDF is used by DBPedia for storing the information and accessing using a SQL-like language called SPARQL.
+The RDF (Resource Description Framework) is a framework for conceptual description of web resources. It is based on the concept of making statements about resources. These statements are structured as triples following the \textit{subject–predicate–object} structure. The subject denotes the resource, and the predicate denotes aspects of the resource, and expresses a relationship between the subject and the object. RDF is used by DBpedia for storing the information and accessing using a SQL-like language called SPARQL.
 
 \paragraph{}
-For our requirements we used DBPedia for these information in form of a dump or SPARQL endpoint:
+For our requirements we used DBpedia for these information in form of a dump or SPARQL endpoint:
 
 \begin{itemize}[itemsep = 0.1em]
-\item \textit{dbo:type}: is the ontology that describes the type of a dbpedia entity.
+\item \textit{dbo:type}: is the ontology that describes the type of a DBpedia entity.
 \item \textit{dbo:wikiPageDisambiguates}: this ontology describes which pages need disambiguation.
 \item \textit{transitive redirects}: is a dump file containing page redirects with the transitive redirects resolved. It is useful in case some entity redirects to a disambiguation page.
 \end{itemize} 
@@ -114,7 +116,6 @@ With the final corpus ready we can begin the training of the model. We will desc
 \label{fig:skip_gram}
 \end{figure}
 
-\pagebreak
 
 \paragraph{}
 Given the corpus \(C\) composed by the training words \(\{w_1, \dots, w_{|C|}\}\) that belongs the the vocabulary \(V\), we can start the training of the model. As the network do not accept text as input each word of \(V\) is encoded using a one-hot-vector representation. The output will consist in \(n\) vectors, with \(n\) the size of the context, of size \(|V|\) that are the predicted context with the corresponding probability. So the model tries to maximize the probability of predicting the correct context for each word in the corpus \(C\). Formally: 
@@ -145,35 +146,35 @@ The learning process is achieved updating the weights in the projection layer, t
 \paragraph{} 
 Before we start to generate the candidates, we need to do some work on the entity to resolve capitalization problems and typos like missing spaces or wrong word separators. This is necessary as our model is very rigid on  the surface form of the input. Our preprocessing consist in a capitalization of the entity using a list of stop words containing common words that don't require to be capitalized (e.g. ``a", ``of", ``the"). For increasing the probability of finding the correct entity, and improve the retrieval performance we also perform a query expansion. In our case we take the capitalized entity and generate additional query that will be used to interrogate the model in case that some query is not valid for the model, this query consist in append the ``DBPEDIA\_ID/" token before the entity, and perform a split of the entity using uppercase lower case alternation (for example ``SpaceX" will become ``DBPEDIA\_ID/Space\_X"). 
 
-\subsection{Candidate Generation}
+\subsection{Candidates Generation}
 \paragraph{}
-After the model training, we can use it for the candidate generation. The fundamental property of the model is that words with similar semantic properties are near in the vector space. We can exploit this property and perform a cosine similarity between the entity's vector and it's neighbors, the result is a limited list of similar words ordered by similarity. The results are filtered keeping only the DBPedia entities (see Figure \ref{fig:candidates_gen}, an example using ``PRISM", the American surveillance program, as input for the model).
+The candidate generation is based on the Word Embedding model. The fundamental property of the model is that words with similar semantic properties are near in the vector space. We can exploit this property and perform a cosine similarity between the entity's vector and all the other words present in the dictionary, the result is a limited to the top \(n\) similar words ordered by similarity. The results are filtered keeping only the DBPedia entities (see Figure \ref{fig:candidates_gen}, an example using ``PRISM", the American surveillance program, as input for the model).
 
 
-The cosine similarity is a similarity measure between two non zero vectors. Its measured using the cosine between the two vectors. The function interval is [-1, 1], where 1 means that the two vectors are identical, 0 if they are perpendicular, and -1 if the two vectors are diametrically opposed, the result is independent of the magnitude. 
+The cosine similarity is a similarity measure between two non zero vectors. It is measured using the cosine between the two vectors. The function interval is [-1, 1], where 1 means that the two vectors are identical, 0 if they are perpendicular, and -1 if the two vectors are diametrically opposed, the result is independent of the magnitude. 
 
 \begin{equation}
 similarity(A, B) = cos(\theta) = \frac{A \cdot B}{\lVert A \rVert \lVert B \rVert}
 \end{equation}
 
 
-\vspace{-10pt}
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{candidates_gen.png}
 \caption{Candidate generation and filter}
 \label{fig:candidates_gen}
 \end{figure}
-\vspace{-10pt}
 
-\subsection{Candidate Ranking and NIL Prediction }
+\subsection{Candidates Ranking and NIL Prediction }
 \paragraph{}
-Now that we have the candidates list, the next step is their disambiguation. This is accomplished using DBPedia's SPARQL endpoint to request each candidate's type then  comparing it with the one from the NER. We also use the PageRank of the DBPedia page (provided by \href{http://people.aifb.kit.edu/ath/}{aif.kit.edu}~\cite{Thalhammer2016}) as an additional score for entity disambiguation.
+Given a candidate list for each entity, the next step is the ranking phase. This is accomplished using DBpedia's SPARQL endpoint to request each candidate's type. We also use the PageRank of the DBpedia page (provided by \href{http://people.aifb.kit.edu/ath/}{aif.kit.edu}~\cite{Thalhammer2016}) as an additional score for entity disambiguation.
 
 PageRank~\cite{brin1998anatomy} is an algorithm developed by Google founders Sergey Brin and Larry Page, the algorithm assigns to each document a popularity score based on the number of times this document is referenced, and the popularity of who references the document.
 
 \begin{equation}
 pr(A) = \frac{1 - d}{N} + d \sum\limits_{i=1}^{n}\frac{pr(P_k)}{C(P_k)}
 \end{equation}
+
+\pagebreak
 
 Where:
 \begin{itemize}[noitemsep]
@@ -186,10 +187,43 @@ Where:
 \end{itemize}
 
 \paragraph{}
-These disambiguation methods are applied in cascade for each candidate entity in the filtered result list from the word embedding model. The first candidate is the one with the highest cosine similarity, first we check the type, if it matches and the entity is not a disambiguation page we return it, otherwise we perform a SPARQL query to the DBpedia SPQARL endpoint to get a list of the entity that the current candidate disambiguates, we chose the entity with the highest PageRank and the correct type.
+The following disambiguation methods are applied in cascade (see Algorithm \ref{alg:pipeline}) for each candidate entity in the filtered result list from the word embedding model. 
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\State Returns the link to DBpedia of the input entity and its type.
+\\
+\State Initialize
+\State candidates = we.most\_similar(\(entity\), limit = n)
+\State filtered\_candidates = filter(candidates, ``DBPEDIA\_ID")
+
+\For{$candidate$ in filtered\_candidates}
+    \State candidate\_type = get\_dbpedia\_type($candidate$)
+    \If{candidate\_type == entity\_type}
+    	\If{is\_disambiguation\_page($candidate$)}
+    			\State disamb\_candidates = get\_disambiguation\_pages($candidate$)
+    			\State page\_ranks = get\_page\_ranks(disamb\_candidates)
+    			\State sort(disamb\_candidates, page\_ranks)
+    			\For{$disamb$ in disamb\_candidates}
+    					\State disamb\_type = get\_dbpedia\_type($dis$)
+    				    \If{disamb\_type == entity\_type}
+    				    \State return $disamb$
+    				    \EndIf
+    			\EndFor
+    	\Else
+    	\State return $candidate$
+    	\EndIf
+    \EndIf
+\EndFor
+
+\caption[caption]{Simplified view of the code used in our system}
+\label{alg:pipeline}
+\end{algorithmic}
+\end{algorithm}
+
+\pagebreak
 
 \paragraph{}
-The final part of a NEL system is the NIL prediction. Our system does not implement a specific NIL recognizer, instead we use the definition of what we consider as an entity to make an assumption for the NIL entities. If our entities are all the Wikipedia articles, and our model is trained over these articles, is a good assumption that if a word is not present in the model it can be labeled as NIL.  
-
+The final part of a NEL system is the NIL prediction. A NIL is a entity that is should not be linked to the KB. Our system does not implement a specific NIL recognizer, instead we use the definition of what we consider as an entity to make an assumption for the NIL entities. If our entities are all the Wikipedia articles, and our model is trained over these articles, is a good assumption that if a word is not present in the model it can be labeled as NIL.  
 
 

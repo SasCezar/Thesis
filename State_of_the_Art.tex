@@ -74,7 +74,8 @@ The $rank$ function can be defined in many ways, and use different features and 
 
 \subsection{Features}
 A feature is a measurable piece of information relevant for solving a computational problem. There are a large number of feature that are used to describe different aspects of an entity. For the candidate entity ranking task features can be divided into context-independent features and context-dependent features.
-\pagebreak
+
+
 \paragraph{Context-independent} features rely on the surface form of the entity candidate and the entity in the knowledge, the position of the entity in the text is ignored. 
 
 \paragraph{} 
@@ -88,7 +89,7 @@ We can also consider the type (i.e. person, location, and organization) of the e
 
 \begin{itemize}[topsep=10pt]
 \item \textbf{Bag of words} represents the context as a bag of words collected from the text where the entity mention appears or a window of size $n$ centered on the entity. The context can be described using a bag on the whole Wikipedia entity article, or the top-k token TF-IDF (term frequency–inverse document frequency) summary of the Wikipedia page~\cite{ratinov2011local}.  
-\pagebreak
+
 \item \textbf{Concept vector} describe the context by extracting some key-phrases, named entity, categories, Wikipedia concepts, and related links in the page. Then compose a vector to represent the semantic context of the entity in the document. Some examples can be found in the work of Dredze and his team~\cite{dredze2010entity}.
 \end{itemize}
 
