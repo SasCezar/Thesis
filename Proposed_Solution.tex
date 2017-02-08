@@ -43,7 +43,7 @@ A word representation is a mathematical object associated with a word, typically
 \subsection{Word Embeddings}
 \paragraph{}
 Word embedding techniques development began with the work of Yoshua Bengio et al.~\cite{bengio2003neural} and are a set of language modeling and feature learning techniques in NLP used for word representation. The basic idea behind Word Embedding is that  contextual information alone constitutes a practical representation of linguistic items. We can formalize Word Embeddings as a function \(\mathit{WE} = word \rightarrow R^n\) which maps a word in some language to a n-dimensional vector. 
-It was also found that the generated vectors have more than syntactic regularities, we can also perform simple algebraic operation on word's vector like \(\mathit{WE} ("King")-\mathit{WE}("Man")+\mathit{WE} ("Woman")\) and obtain a vector that is close to \(\mathit{WE}("Queen")\).
+It was also found that the generated vectors have more than syntactic regularities, we can also perform simple algebraic operation on word's vector like \(\mathit{WE} (``King")-\mathit{WE}(``Man")+\mathit{WE} (``Woman")\) and obtain a vector that is close to \(\mathit{WE}(``Queen")\).
 
 One of the most used and popular tool for word embedding is Word2Vec proposed by Tomas Mikolov and his team at Google~\cite{mikolov2013efficient}. In their work, they present two efficient model architectures for computing continuous vector representation of words. These models use a modified version of a feedforward neural network language model where the hidden layer is removed to reduce the computational cost.
 
