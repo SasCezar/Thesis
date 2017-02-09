@@ -1,7 +1,5 @@
 
 \chapter{Experiments}
-
-
 \paragraph{}
 In this chapter we take an overview of the experiments that we used to evaluate our system. We analyze the results, and present some problems of our approach. Finally we compare our system with some state-of-the-art solutions.
 
@@ -9,11 +7,11 @@ In this chapter we take an overview of the experiments that we used to evaluate 
 \section{Datasets}
 The system was trained and optimized using the datasets from the Making Sense of Microposts challenge~\cite{rizzo2015making}. The task of the challenge is to automatically recognize entities and their type from English tweets, and link them to the corresponding DBpedia resource.  
 
-We used the datasets from the 2015 and 2016 challenge. These datasets are extracted from a subsets of tweets published between 2011 and 2015 selected using hashtags. These tweets are of two types, events tweet which are more likely to contain entities, and non-event tweets, these are more likely to not contain any entity. 
+We used the datasets from the 2015 and 2016 challenges. These datasets are extracted from a subsets of tweets published between 2011 and 2015 selected using hashtags. These tweets are of two types, events tweet which are more likely to contain entities, and non-event tweets, these are more likely to not contain any entity. 
 Another micropost challenge on entity linking is NEEL-IT organized by EVALITA~\cite{basile2016evalita}, they focus on the development of NEEL system for Italian tweets. In this case the dataset available was from the 2016 challenge. 
 
 
-These type of challenge provide two or three datasets, the first is called ``training set" and will be used for training the models, an optional one called ``dev set" used for fine tuning of the algorithms and self evaluation of the system, and the last one is the ``test set", this will be used for the competition as official results for the system performance. Datasets also come with an annotated version of the tweets that contains the correct entities and links. This is called the ground truth or gold standard, and is used to evaluate the performance of the system, and allows researchers to perform changes on their system. The ground truth of the ``test set" is released after the submission of the participants. 
+These type of challenge provide two or three datasets, the first is called ``training set" and will be used for training the models, an optional one called ``dev set" used for fine tuning of the algorithms and self evaluation of the system, and the last one is the ``test set", this will be used for the competition as official results for the system performance. Datasets also come with an annotated version of the tweets that contains the correct entities and links. This is called the ground truth or gold standard, and is used to evaluate the performance of the system, and allows researchers to perform changes on their system. The ground truth of the ``test set" is released after the submission of the results by the participants. 
 
 In Table \ref{tab:datasets} we can see each dataset size for both English and Italian micropost challenges. The table contains the total number of entities, the number of linkable entities, and the number of NIL entities.
 
@@ -74,7 +72,7 @@ recall = \frac{tp}{tn+fn}
 \begin{equation}
 F_1 = 2 \cdot \frac{precision \cdot recall}{precision+recall}
 \end{equation}
-\item NIL Score: is equivalent to the recall for the NIL labeled entities.
+\item NIL Score: is equivalent to the recall for the NIL labeled entities (note: this is not a standard SLM score).
 \end{itemize}	
 
 
@@ -318,10 +316,10 @@ The last experiment consist in the use of the DBpedia disambiguation list and th
 
 \section{Results Comparison}
 \paragraph{}
-In this section we present a comparison between our system and the currently state-of-the-art solutions. As not all system present their results for the test set, we used different datasets according to data availability. Form Tables \ref{tab:comparison_micropost_2015} and \ref{tab:comparison_micropost_2016} we notice that our system performs well compared to the top systems proposed at \#Micropost challenges. In the \#Micropost 2015 challenge our system places in third position close to the solution proposed by Acubelab in second place. In the 2016 edition, we achieve a second place, with 60\% of F1 score. The main reason our system is overtaken by KEA is that their system was hardly optimized for the challenge, in fact they obtained an increase of 40\% in f-measure compared to the not optimized version. This is a weak point if a change of domain is required as it takes a lot of effort to optimize the system. A similar problem affects the solution proposed by Ousia. It is based on an in-house dictionary for acronym expansion, and a supervised learning approach using Random Forest as classifier, all of which are expensive in terms of human effort for the annotation of the data.
+In this section we present a comparison between our system and the currently state-of-the-art solutions. As not all system present their results for the test set, we used different datasets according to data availability. From Tables \ref{tab:comparison_micropost_2015} and \ref{tab:comparison_micropost_2016} we notice that our system  have comparable performances to the top systems proposed at \#Micropost challenges. In the \#Micropost 2015 challenge our system places in third position close to the solution proposed by \textit{Acubelab} in second place. In the 2016 edition, we achieve a second place, with 60\% of F1 score. The main reason our system is overtaken by \textit{KEA} is that their system was hardly optimized for the challenge, in fact they obtained an increase of 40\% in f-measure compared to the not optimized version. This is a weak point if a change of domain is required as it takes a lot of effort to optimize the system. A similar problem affects the solution proposed by \textit{Ousia}. It is based on an in-house dictionary for acronym expansion, and a supervised learning approach using Random Forest as classifier, all of which are expensive in terms of human effort for the annotation of the data.
 
 
-For EVALITA, systems NEL only results are more difficult to find, we present a comparison with two system that participated at the challenge using two different datasets. In Table \ref{tab:comparison_evalita_2016} we notice that using the training set (labeled with ``train") our solution performs similar in terms of F1 score to FBK\_NLB's solution but they differ in terms of precision and recall. Our system is less precise, but we have a higher recall. They solution is based on a Word Sense Disambiguation module and DBpedia Spotlight. We can find the same performance difference in the sisinflab solution, in this case, the higher precision is due to the combined three different approaches used for the NEL. They use DBpedia Spotlight for span and URI detection, DBpedia lookup for URI generation given a keyword, and a word embeddings model trained over tweets with a URI generator.
+In the EVALITA challenge, most of the works provide only the overall score. We present a comparison with the only two systems that provided specific results for the NEL task in the considered dataset. In Table \ref{tab:comparison_evalita_2016} we notice that using the training set (labeled with ``train") our solution performs similar in terms of F1 score to \textit{FBK\_NLB}'s solution but they differ in terms of precision and recall. Our system is less precise, but we have a higher recall. Their solution is based on a Word Sense Disambiguation module and DBpedia Spotlight. We can find the same performance gap with the \textit{sisinflab}'s solution, in this case, the higher precision is due to the combined three different approaches used for the NEL. They use DBpedia Spotlight for span and URI detection, DBpedia lookup for URI generation given a keyword, and a word embedding model trained over tweets with a URI generator. Both of these solution use an ensemble of state-of-the-art techniques, this give them the ability to overcome the problems of individual methods and achieve better overall performance
 
 \begin{table}[!htbp]
 \centering
@@ -381,7 +379,3 @@ Team Name & Reference & Precision & Recall & F1 Score \\
 \caption{Comparison for NEEL-IT 2016}
 \label{tab:comparison_evalita_2016}
 \end{table}
-
-
-
-
